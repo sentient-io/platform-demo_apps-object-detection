@@ -13,6 +13,7 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="css/demoapps.css">
+    <link rel="stylesheet" href="css/ObjectDetection.css">
 
     <!-- Import Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -111,7 +112,18 @@
                     <!-- +-----------------------------+ -->
                 </div>
             </div>
-            <p id="detectionDescription" class="text-center"></p>
+
+            <!-- Toggle Canvas Boxes -->
+            <div id="toggleBoxes" style="display:none;">
+                <div class="mb-2 d-flex row justify-content-center align-items-center">
+                    <p id="detectionDescription" class="mb-0 mr-3" style="max-width: 400px;"></p>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" checked class="custom-control-input" id="customSwitch1"
+                            onclick="toggleCanvasBox()">
+                        <label class="custom-control-label" for="customSwitch1">Toggle Boxes</label>
+                    </div>
+                </div>
+            </div>
             <!-- Lodaer with changing text -->
             <div class="m-auto pt-5 text-center" id="loader" style="display: none;">
                 <img src="img/loading.gif" class="mr-3" alt="" width="24px">

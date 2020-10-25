@@ -77,21 +77,27 @@ uploadSinglePic = (files) => {
 		reader.onloadend = () => {
 			let image = new Image();
 			image.src = reader.result;
+			// Pass uploaded image original data to global varables
+			originalImgData = reader.result;
 			image.onload = () => {
-				// Render img element to keep original pixel
-				let img = document.createElement('img');
-				img.setAttribute('id', 'originalPic');
-				img.setAttribute('style', 'display:none');
-				img.src = reader.result;
-
 				// Render re-sized canvas element
 				let canvas = canvasDrawImage(
 					reader.result,
 					image.width,
 					image.height,
-					750
+					650
+				);
+				// Render a baseCanvas for toggle boxes on canvas
+				let baseCanvas = canvasDrawImage(
+					reader.result,
+					image.width,
+					image.height,
+					650
 				);
 				canvas.setAttribute('id', 'uploadedPic');
+				baseCanvas.setAttribute('id', 'baseCanvas');
+				$(baseCanvas).hide();
+				$('#single-pic-preview').append(baseCanvas);
 				$('#single-pic-preview').append(canvas);
 			};
 		};

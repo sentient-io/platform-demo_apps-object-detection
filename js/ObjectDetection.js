@@ -11,7 +11,7 @@ objectDetection = (base64String) => {
 	xhr.addEventListener('readystatechange', function () {
 		if (this.readyState === this.DONE) {
 			loadingEnd();
-			$('#btn-restart').toggle();
+			$('#btn-restart, #toggleBoxes').toggle();
 			parseDetectedObjects(this.responseText);
 		}
 	});

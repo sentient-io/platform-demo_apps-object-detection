@@ -1,1 +1,1 @@
-var apikey = "ENTER YOUR API KEY"
+var apikey = "1AAFE608829A4A529803"

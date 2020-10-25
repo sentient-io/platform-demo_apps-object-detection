@@ -1,3 +1,6 @@
+// Store uploaded original image data
+let originalImgData;
+
 // Toggle popup alert window
 toggleAlert = (alertTitle, alertMsg) => {
 	$('#alertContent').html(alertMsg);
@@ -34,7 +37,7 @@ handleCancel = () => {
 handleRestart = () => {
 	$('#single-pic-input').val('');
 	$('#single-pic-preview, #detectionDescription').empty();
-	$('#btn-restart, #single-pic-uploader').toggle();
+	$('#btn-restart, #single-pic-uploader, #toggleBoxes').toggle();
 };
 
 canvasDrawBox = (location, picId, objectName, objectID, boxColor) => {
@@ -81,4 +84,9 @@ randomColor = (hue, saturate, light, randH, randS, randL, randScale) => {
 	let s = saturate + Math.floor(Math.random() * randS);
 	let l = light + Math.floor(Math.random() * randL);
 	return `${h}, ${s}%, ${l}%`;
+};
+
+toggleCanvasBox = () => {
+	console.log('toggled once');
+	$('#baseCanvas, #uploadedPic').toggle();
 };
