@@ -22,7 +22,6 @@ handleImageProcessing = () => {
 			.split('base64,')[1];
 		$('#detectObject, #btn-cancel').toggle();
 		loadingStart();
-		console.log(data);
 		objectDetection(data);
 	}
 };

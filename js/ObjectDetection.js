@@ -78,8 +78,6 @@ handelProcessedObjects = (objects) => {
 };
 
 describeProcessedObjects = (objects) => {
-	console.log(`Describing detected objects`);
-
 	let sentence = 'Detected';
 	for (item in objects) {
 		let amount = objects[item].objects.length;
@@ -93,12 +91,10 @@ describeProcessedObjects = (objects) => {
 		sentence += ` ${amount} ${category},`;
 	}
 
-	console.log(sentence);
 	// Replace last comma with full stop
 	sentence = sentence.slice(0, -1) + '.';
 	// Get the index of last comma and replace with "and"
 	let lastCommaIndex = sentence.lastIndexOf(',');
-	console.log(`Last comma index is ${lastCommaIndex}`)
 	if (lastCommaIndex > 1) {
 		sentence =
 			sentence.slice(0, lastCommaIndex) +
