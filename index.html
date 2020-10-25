@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/svg" href="img/Sentient-io_fav.svg" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="css/demoapps.css">
+
+    <!-- Import Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Import Fontawsome -->
+    <script src="https://kit.fontawesome.com/0596f25b73.js" crossorigin="anonymous"></script>
+
+    <title>Object Detection</title>
+</head>
+
+<body>
+    <!-- Main Container -->
+    <div class="pb-5 bg-wave-pattern" style="min-height: calc(100vh - 100px);">
+        <div class="m-auto p-md-5 p-3" style="max-width:1200px">
+
+            <!-- Popup Alert -->
+            <div class="modal fade" id="alert" tabindex="-1" area-hidden="true">
+                <div class="modal-dialog d-flex" style="height:100vh">
+                    <div class="modal-content m-auto p-2">
+                        <div class="modal-header d-flex justify-content-center">
+                            <h5 class="modal-title" id="alertTitle"></h5>
+                        </div>
+                        <div class="modal-body p-3">
+                            <p id="alertContent"></p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- -END- Popup Alert -->
+
+            <!-- Header Content, title and description -->
+            <div id="header-contianer" class="d-flex flex-column flex-md-row  justify-content-md-between">
+                <div id="header-container-l" class="d-flex flex-column col-md-8">
+                    <div class="d-flex flex-row">
+                        <h4>Object Detection</h4><span class="ml-2 p-2 badge badge-pill"
+                            style="background-color:#B71C1C; color:white; height: 28px;"><i>DEMO</i></span>
+                    </div>
+                    <div>
+                        <p>
+                            This demp uses Sentient.io Object Detection microservice, it will detect objects in images
+                            and draw the borders. Return a total count of objects in a human friendly sentence
+                        </p>
+                    </div>
+                </div>
+                <div id="header-container-r"
+                    class="d-flex flex-row flex-md-column col-md-3 justify-content-center demo-app-btn-container">
+                    <a href="#" target="_blank" class="mb-3 mx-auto d-block text-center sentie-btn-secondary"
+                        style="width: 200px;background: #f5f5f5;">
+                        More Info
+                    </a>
+                    <a href="#" target="_blank" class="mb-3 mx-auto text-center sentie-btn-primary sentie-btn-grey"
+                        style="width: 200px;">
+                        Demo App Code
+                    </a>
+                </div>
+            </div>
+            <!-- -END- Header Content, title and description -->
+
+            <!-- Demp App Functions-->
+            <div class="p-3 mt-5 d-flex flex-column" style="min-height: 30vh;">
+
+
+                <div id="functionsContianer" class="col-12">
+
+                    <!-- +------------------------------+ -->
+                    <!-- Single Pic Uploader -->
+                    <!-- Pic Preview -->
+                    <div id="single-pic-preview" class="d-flex justify-content-center">
+
+                    </div>
+                    <!-- -END- Pic Preview -->
+                    <!-- Uploader drag drop box -->
+                    <div class="mx-auto mt-4 p-3" id="single-pic-uploader">
+                        <form class="text-center">
+                            <i class="mb-3 material-icons">cloud_upload</i>
+                            <h5>Drag and drop single image here</h5>
+                            <p>(Max file size : 5mb)</p>
+                            <p>or</p>
+                            <input type="file" accept="image/*" id="single-pic-input"
+                                onchange="uploadSinglePic(this.files)">
+                            <label class="px-3 sentie-btn-primary sentie-btn-green" for="single-pic-input">Upload a
+                                Picture</label>
+                        </form>
+                    </div>
+                    <!-- -END- Single Pic Uploader -->
+                    <!-- +------------------------------+ -->
+
+                </div>
+
+                <div id="resultContainer" class="col-12 col-lg-6">
+                    <!-- +-----------------------------+ -->
+                    <!-- |  Demo APP Results Goes Here | -->
+                    <!-- +-----------------------------+ -->
+                </div>
+            </div>
+            <p id="detectionDescription" class="text-center"></p>
+            <!-- Lodaer with changing text -->
+            <div class="m-auto pt-5 text-center" id="loader" style="display: none;">
+                <img src="img/loading.gif" class="mr-3" alt="" width="24px">
+                <span>Processing ... </span>
+                <p class="pt-2" id="loader-text"></p>
+            </div>
+            <!-- -END- Lodaer with changing text -->
+
+            <!-- Demo App Controls -->
+            <div class="m-auto pt-2 d-flex flex-column-reverse flex-sm-row justify-content-center align-items-center"
+                style="max-width: 600px;">
+
+                <div class="col-3 text-center">
+                    <button id="btn-cancel" class="mb-4 sentie-btn-cancel" style="display: none"
+                        onclick="handleCancel()"> Cancel </button>
+                </div>
+                <div class="col-6 text-center">
+
+                    <button id="detectObject" onclick="handleImageProcessing()"
+                        class="mb-4 mx-auto text-center sentie-btn-primary sentie-btn-grey"
+                        style="display: none;">Detect
+                        Objects</button>
+                    <button id="btn-restart" onclick="handleRestart()"
+                        class="mb-4  mx-auto text-center sentie-btn-primary sentie-btn-green"
+                        style="display: none !important;"> Restart </button>
+                </div>
+                <div class="col-3">
+
+                </div>
+            </div>
+            <!-- -END- Demo App Controls -->
+            <!-- -END- Demp App Functions  -->
+
+        </div>
+        <!-- Back button to all demo app -->
+        <div class="mt-3 d-flex justify-content-center">
+            <a href="https://platform.sentient.io/demoapps">
+                <button class="d-flex row align-items-center sentie-btn-cancel">
+                    <span class="material-icons mr-2 ">arrow_back</span>
+                    All Demo Apps
+                </button>
+            </a>
+        </div>
+    </div>
+    <!-- -END- Main Container -->
+
+    <!-- Footer -->
+    <footer class="shadow-lg" style="background-color:white">
+        <div class="mx-auto pt-5 pb-3 d-flex flex-column justify-content-center flex-lg-row" style="max-width: 1000px;">
+            <div class="col-12 col-lg-8">
+                <div class="text-center text-lg-left">
+                    <p>
+                        Designed and built by <a href="https://www.sentient.io/" target="_blank"
+                            style="color:#bb9968">Sentient.io</a> with the help of our contributors.
+                    </p>
+                    <p>
+                        App version: 1.0.0 | Source code for app available
+                        <a href="https://github.com/sentient-io/platform-demo_apps-image-narration" target="_blank"
+                            style="color:#bb9968">here</a>.
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <a href="https://www.sentient.io/" target="_blank">
+                    <img src="img/sentient-logo.png" alt="Sentient.io logo" class="m-auto d-block"
+                        style="max-width:280px">
+                </a>
+            </div>
+        </div>
+    </footer>
+    <!-- -End- footer -->
+
+
+    <!-- jQuery(Google) first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <!-- Stores API Key -->
+    <script src="app.js"></script>
+    <script src="js/singleImgUploader.js"></script>
+    <script src="js/ObjectDetection.js"></script>
+
+    <script src="js/loader.js"></script>
+    <script src="js/main.js"></script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,168 @@
+/***************************************/
+/* Import Nunito Sans font from google */
+/***************************************/
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+	font-family: 'Nunito Sans', sans-serif;
+	transition: all 0.3s;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 16px;
+}
+
+i,
+button {
+	font-weight: 400;
+}
+
+button:focus{
+	outline: none !important;
+}
+
+h2 {
+	font-weight: 800;
+}
+
+h5 {
+	font-weight: 700;
+}
+
+a, a:hover{
+	text-decoration: none;
+	color: #424242;
+}
+
+/* Background */
+.bg-wave-pattern {
+	background: #f5f5f5 url('../img/bg-waveline.png') no-repeat center bottom;
+	background-size: 100%;
+}
+
+/* Buttons */
+.sentie-btn-green {
+	border: 1px solid #8eaf04;
+	background-color: #8eaf04;
+}
+
+.sentie-btn-grey {
+	color: white !important;
+	border: 1px solid #424242;
+	background-color: #424242;
+}
+
+.sentie-btn-grey:hover {
+	filter: brightness(1.4) !important;
+}
+
+.sentie-btn-primary {
+	min-width: 160px;
+	padding: 0.5rem;
+	color: white;
+	border-radius: 8px;
+	font-weight: 300 !important;
+}
+
+.sentie-btn-primary:hover {
+	filter: brightness(1.1);
+}
+
+.sentie-btn-secondary {
+	min-width: 160px;
+	padding: 0.5rem;
+	border-radius: 8px;
+	border: 1px solid #424242;
+}
+
+.sentie-btn-secondary:hover{
+	filter: brightness(.9);
+}
+
+.sentie-btn-cancel {
+	border: none;
+	background-color: rgba(0, 0, 0, 0.0);
+	color: #9e9e9e;
+}
+
+.sentie-btn-cancel:hover{
+	color: #424242;
+}
+
+/* Override material icons reansition delay */
+.material-icons{
+	transition: all 0s;
+}
+
+@media (max-width: 490px) {
+	/* Stack More Info button and Demo App Code button vertically */
+	.demo-app-btn-container {
+		flex-direction: column !important;
+	}
+}
+
+/*-------------------*/
+/*    Scroll Bar     */
+/*-------------------*/
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/*--------------*/
+/*    Corners   */
+/*--------------*/
+.rounded-bottom-lg {
+	border-radius: 0 0 0.3rem 0.3rem !important;
+}
+.rounded-top-lg {
+	border-radius: 0.3rem 0.3rem 0 0 !important;
+}
+
+/***********************/
+/* Single Pic Uploader */
+/***********************/
+#single-pic-uploader {
+	max-width: 480px;
+	border: 2px dashed #ccc;
+	border-radius: 16px;
+	background: rgba(142, 175, 4, 0);
+}
+#single-pic-uploader i {
+	font-size: 100px;
+	color: #8eaf04;
+	opacity: 30%;
+}
+#single-pic-uploader input {
+	display: none;
+}
+/*.highlight will be added when user drag file above uploader area*/
+#single-pic-uploader.highlight {
+	border-color: #8eaf04;
+	background: rgba(142, 175, 4, 0.05);
+}
+#single-pic-uploader.highlight i {
+	opacity: 100%;
+}
+#single-pic-preview img,
+#single-pic-preview canvas {
+	margin: auto;
+	max-width: 100%;
+	display: block;
+	box-sizing: border-box;
+	border: 10px white solid;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
