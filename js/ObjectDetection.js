@@ -70,7 +70,7 @@ handelProcessedObjects = (objects) => {
 				objectsArr[objectIndex][1],
 				'uploadedPic',
 				objectsArr[objectIndex][0],
-				objectIndex,
+				Number(objectIndex)+1,
 				`hsl(${color})`
 			);
 		}
