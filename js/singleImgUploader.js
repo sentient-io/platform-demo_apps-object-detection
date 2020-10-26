@@ -75,33 +75,73 @@ uploadSinglePic = (files) => {
 		reader.readAsDataURL(files[0]);
 
 		reader.onloadend = () => {
-			let image = new Image();
-			image.src = reader.result;
-			// Pass uploaded image original data to global varables
-			originalImgData = reader.result;
-			image.onload = () => {
-				// Render re-sized canvas element
-				let canvas = canvasDrawImage(
-					reader.result,
-					image.width,
-					image.height,
-					650
-				);
-				// Render a baseCanvas for toggle boxes on canvas
-				let baseCanvas = canvasDrawImage(
-					reader.result,
-					image.width,
-					image.height,
-					650
-				);
-				canvas.setAttribute('id', 'uploadedPic');
-				baseCanvas.setAttribute('id', 'baseCanvas');
-				$(baseCanvas).hide();
-				$('#single-pic-preview').append(baseCanvas);
-				$('#single-pic-preview').append(canvas);
-			};
+			// Push original image to DOM to retain original pixel
+			createSourcePic(reader.result);
+			// Draw and resize uploaded image to canvas
+			createPreviewPic(reader.result, 600);
 		};
 
-		$('#detectObject, #btn-cancel, #single-pic-uploader').toggle();
+		$('#detectObject, #btn-cancel').toggle();
+		$('#single-pic-uploader').hide();
 	}
+};
+
+createSourcePic = (src) => {
+	// When send data to API, use base64 string from sourcePic
+	// Hidden original size image to retain original pixel
+
+	let sImage = document.createElement('img');
+	sImage.setAttribute('id', 'sourcePic');
+	sImage.src = src;
+
+	// Hide original image
+	$(sImage).hide();
+
+	// Append source image to dom
+	$('#single-pic-preview').append(sImage);
+};
+
+createPreviewPic = (src, previewPicSize = 600) => {
+	// Src is uploaded file src to create image element
+	// previewPicSize : Number, determine the size of displayed iamge
+	let image = new Image();
+	image.src = src;
+	image.onload = () => {
+		// Update canvasResizeRatio for resizing returned boxes
+		if (image.width >= image.height) {
+			// Prevent upscaling small images
+			if (image.width < previewPicSize) {
+				previewPicSize = image.width;
+			}
+			canvasResizeRatio = previewPicSize / image.width;
+		} else {
+			if (image.height < previewPicSize) {
+				previewPicSize = image.height;
+			}
+			canvasResizeRatio = previewPicSize / image.height;
+		}
+		//console.log(canvasResizeRatio)
+
+		let canvas = canvasDrawImage(
+			src,
+			image.width,
+			image.height,
+			previewPicSize
+		);
+
+		// Render a baseCanvas for toggle boxes on canvas
+		let baseCanvas = canvasDrawImage(
+			src,
+			image.width,
+			image.height,
+			previewPicSize
+		);
+
+		canvas.setAttribute('id', 'uploadedPic');
+		baseCanvas.setAttribute('id', 'originalUploadedPic');
+		$(baseCanvas).hide();
+
+		$('#single-pic-preview').append(baseCanvas);
+		$('#single-pic-preview').append(canvas);
+	};
 };

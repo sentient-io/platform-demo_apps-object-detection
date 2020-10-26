@@ -19,10 +19,7 @@ handleImageProcessing = () => {
 		$('#alert').modal('toggle');
 	} else {
 		// Return base64 string as data
-		let data = document
-			.getElementById('uploadedPic')
-			.toDataURL()
-			.split('base64,')[1];
+		let data = $('#sourcePic').attr('src').split('base64,')[1];
 		$('#detectObject, #btn-cancel').toggle();
 		loadingStart();
 		objectDetection(data);
@@ -43,10 +40,10 @@ handleRestart = () => {
 canvasDrawBox = (location, picId, objectName, objectID, boxColor) => {
 	//picId: base image
 	// Location: array with 4 position number
-	let y = location.Top;
-	let x = location.Left;
-	let width = location.Right - x;
-	let height = location.Bot - y;
+	let y = location.Top * canvasResizeRatio;
+	let x = location.Left * canvasResizeRatio;
+	let width = location.Right * canvasResizeRatio - x;
+	let height = location.Bot * canvasResizeRatio - y;
 
 	// Prevent API from return negative value
 	if (y < 0) {
@@ -88,5 +85,5 @@ randomColor = (hue, saturate, light, randH, randS, randL, randScale) => {
 
 toggleCanvasBox = () => {
 	console.log('toggled once');
-	$('#baseCanvas, #uploadedPic').toggle();
+	$('#originalUploadedPic, #uploadedPic').toggle();
 };
