@@ -65,7 +65,7 @@ uploadSinglePic = (files) => {
 	if (files[0].size >= fileSizeLimit) {
 		let errTitle = 'File Size Too Big';
 		let errMsg =
-			'For demp purpose, we are limiting file size to 5MB. Please try another image.';
+			'For demo purpose, we are limiting file size to 5MB. Please try another image.';
 		toggleAlert(errTitle, errMsg);
 		// Clear record of uploaded file
 		$('#single-pic-input').val('');
