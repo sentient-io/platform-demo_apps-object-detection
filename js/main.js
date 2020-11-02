@@ -34,7 +34,8 @@ handleCancel = () => {
 handleRestart = () => {
 	$('#single-pic-input').val('');
 	$('#single-pic-preview, #detectionDescription').empty();
-	$('#btn-restart, #single-pic-uploader, #toggleBoxes').toggle();
+	$('#btn-restart, #single-pic-uploader').toggle();
+	$('#toggleBoxes').hide()
 };
 
 canvasDrawBox = (location, picId, objectName, objectID, boxColor) => {

@@ -1,4 +1,5 @@
 objectDetection = (base64String) => {
+	console.log('Detecting objects');
 	const data = JSON.stringify({
 		image_base64: base64String,
 	});
@@ -64,13 +65,13 @@ parseDetectedObjects = (Objects) => {
 handelProcessedObjects = (objects) => {
 	for (category in objects) {
 		let objectsArr = objects[category].objects;
-		let color = randomColor(190, 100, 50, 13, 0, 0, 8);
+		let color = randomColor(100, 50, 40, 26, 0, 0, 10);
 		for (objectIndex in objectsArr) {
 			canvasDrawBox(
 				objectsArr[objectIndex][1],
 				'uploadedPic',
 				objectsArr[objectIndex][0],
-				Number(objectIndex)+1,
+				Number(objectIndex) + 1,
 				`hsl(${color})`
 			);
 		}
@@ -78,17 +79,23 @@ handelProcessedObjects = (objects) => {
 };
 
 describeProcessedObjects = (objects) => {
+	console.log('Describing processed objects');
 	let sentence = 'Detected';
-	for (item in objects) {
-		let amount = objects[item].objects.length;
-		let category;
-		if (amount === 1) {
-			category = objects[item].category;
-		} else {
-			category = singularToPlural(objects[item].category);
+	console.log(Object.keys(objects)[0]);
+	if (!Object.keys(objects)[0]) {
+		sentence = 'No object detected. Please try with another image.';
+		$('#toggleBoxes').hide()
+	} else {
+		for (item in objects) {
+			let amount = objects[item].objects.length;
+			let category;
+			if (amount === 1) {
+				category = objects[item].category;
+			} else {
+				category = singularToPlural(objects[item].category);
+			}
+			sentence += ` ${amount} ${category},`;
 		}
-
-		sentence += ` ${amount} ${category},`;
 	}
 
 	// Replace last comma with full stop
