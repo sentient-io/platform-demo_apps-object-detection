@@ -113,18 +113,18 @@
             </div>
 
             <!-- Toggle Canvas Boxes -->
-            <div class="mb-2 d-flex row justify-content-center align-items-center">
+            <div class="my-4 d-flex row justify-content-center align-items-center">
                 <p id="detectionDescription" class="mb-0 mr-3" style="max-width: 400px;"></p>
                 <div id="toggleBoxes" style="display:none;">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" checked=true class="custom-control-input" id="toggleSwitch"
                             onclick="toggleCanvasBox()">
-                        <label class="custom-control-label" for="toggleSwitch">Toggle Boxes</label>
+                        <label class="custom-control-label" for="toggleSwitch">Object Highlight Box</label>
                     </div>
                 </div>
             </div>
             <!-- Lodaer with changing text -->
-            <div class="m-auto pt-5 text-center" id="loader" style="display: none;">
+            <div class="m-auto text-center" id="loader" style="display: none;">
                 <img src="img/loading.gif" class="mr-3" alt="" width="24px">
                 <span>Processing ... </span>
                 <p class="pt-2" id="loader-text"></p>
