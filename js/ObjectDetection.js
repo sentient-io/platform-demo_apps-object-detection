@@ -14,6 +14,9 @@ objectDetection = (base64String) => {
 			loadingEnd();
 			$('#btn-restart, #toggleBoxes').toggle();
 			parseDetectedObjects(this.responseText);
+			console.log(this)
+		} else {
+			console.log(this)
 		}
 	});
 
@@ -59,6 +62,7 @@ parseDetectedObjects = (Objects) => {
 		return r;
 	}, {});
 	handelProcessedObjects(pharsedObjects);
+	console.log(pharsedObjects)
 	$('#detectionDescription').html(describeProcessedObjects(pharsedObjects));
 };
 

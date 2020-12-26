@@ -35,7 +35,7 @@ handleRestart = () => {
 	$('#single-pic-input').val('');
 	$('#single-pic-preview, #detectionDescription').empty();
 	$('#btn-restart, #single-pic-uploader').toggle();
-	$('#toggleBoxes').hide()
+	$('#toggleBoxes').hide();
 };
 
 canvasDrawBox = (location, picId, objectName, objectID, boxColor) => {
@@ -65,7 +65,8 @@ canvasDrawBox = (location, picId, objectName, objectID, boxColor) => {
 	let txtCtx = canvas.getContext('2d');
 	txtCtx.font = '12px sans-serif';
 	txtCtx.textBaseline = 'top';
-	txtCtx.fillStyle = boxColor;
+	//txtCtx.fillStyle = boxColor;
+	txtCtx.fillStyle = "rgba(0, 0, 0, 0.3)";
 
 	let txtWidth = txtCtx.measureText(objectName + ' - ' + objectID).width;
 	txtCtx.fillRect(x, y, txtWidth + 10, 20);
