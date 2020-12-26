@@ -112,6 +112,10 @@ a:hover {
 	}
 }
 
+.s-text-sentient-green {
+	color: #8eaf04;
+}
+
 /*-------------------*/
 /*    Scroll Bar     */
 /*-------------------*/
@@ -185,6 +189,7 @@ a:hover {
 #sample-images img {
 	max-width: 120px;
 	margin: 1rem;
+	max-height: 90px;
 }
 
 /* +------------------------+ */
