@@ -18,7 +18,7 @@ button {
 	font-weight: 400;
 }
 
-button:focus{
+button:focus {
 	outline: none !important;
 }
 
@@ -30,7 +30,8 @@ h5 {
 	font-weight: 700;
 }
 
-a, a:hover{
+a,
+a:hover {
 	text-decoration: none;
 	color: #424242;
 }
@@ -76,22 +77,31 @@ a, a:hover{
 	border: 1px solid #424242;
 }
 
-.sentie-btn-secondary:hover{
-	filter: brightness(.9);
+.sentie-btn-secondary:hover {
+	filter: brightness(0.9);
 }
 
 .sentie-btn-cancel {
 	border: none;
-	background-color: rgba(0, 0, 0, 0.0);
+	background-color: rgba(0, 0, 0, 0);
 	color: #9e9e9e;
 }
 
-.sentie-btn-cancel:hover{
+.sentie-btn-cancel:hover {
 	color: #424242;
 }
 
+.s-link-text {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.s-link-text:hover {
+	filter: brightness(0.8);
+}
+
 /* Override material icons reansition delay */
-.material-icons{
+.material-icons {
 	transition: all 0s;
 }
 
@@ -158,11 +168,69 @@ a, a:hover{
 	opacity: 100%;
 }
 #single-pic-preview img,
-#single-pic-preview canvas {
+#single-pic-preview canvas,
+#single-pic-preview-base canvas {
 	margin: auto;
 	max-width: 100%;
 	display: block;
 	box-sizing: border-box;
 	border: 10px white solid;
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/*==============================*/
+/*    Detect Objects in Images  */
+/*==============================*/
+
+#sample-images img {
+	max-width: 120px;
+	margin: 1rem;
+}
+
+/* +------------------------+ */
+/* |  Img & Video Uploader  | */
+/* +------------------------+ */
+#s-img-uploader,
+#s-video-uploader {
+	max-width: 480px;
+	border: 2px dashed #ccc;
+	border-radius: 16px;
+	background: rgba(142, 175, 4, 0);
+}
+#s-img-uploader i,
+#s-video-uploader i {
+	font-size: 100px;
+	color: #8eaf04;
+	opacity: 30%;
+}
+#s-img-uploader input,
+#s-video-uploader input {
+	display: none;
+}
+/*.highlight will be added when user drag file above uploader area*/
+#s-img-uploader.highlight,
+#s-video-uploader.highlight {
+	border-color: #8eaf04;
+	background: rgba(142, 175, 4, 0.05);
+}
+#s-img-uploader.highlight i,
+#s-video-uploader.highlight i {
+	opacity: 100%;
+}
+#s-img-preview img,
+#s-img-preview canvas,
+#s-img-preview-base canvas,
+#s-video-preview video {
+	max-width: 800px;
+	margin: auto;
+	display: block;
+	box-sizing: border-box;
+	border: 10px white solid;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+#s-img-preview-base canvas,
+#s-img-preview canvas {
+	max-width: 100%;
+	height: auto;
 }
