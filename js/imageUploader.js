@@ -47,7 +47,7 @@ uploadImg = (files) => {
 		let errTitle = 'File Size Too Big';
 		let errMsg =
 			'For demp purpose, we are limiting file size to 5MB. Please try another image.';
-		togglePopUpAlert(errTitle, errMsg);
+		toggleAlert(errTitle, errMsg);
 		// Clear record of uploaded file
 		$('#single-pic-input').val('');
 		console.log('Error, file size too large');
@@ -76,13 +76,6 @@ uploadImg = (files) => {
 };
 
 previewImg = (src, previewPicSize = 600) => {
-	$('#s-img-uploader').hide();
-	// Remove existing preview canvas
-	$('#uploadedImg, #uploadedImgBase').remove();
-	// Toggle cancel and function button
-	$('#btn-main-function, #btn-cancel, #inline-picture-uploader').show();
-	// Src is uploaded file src to create image element
-	// previewPicSize : Number, determine the size of displayed iamge
 	let image = new Image();
 	image.src = src;
 	image.onload = () => {
@@ -92,9 +85,9 @@ previewImg = (src, previewPicSize = 600) => {
 		if (image.width < imgDimensionLimit || image.height < imgDimensionLimit) {
 			let errTitle = 'Low Image Resolution';
 			let errMsg = `Upload image dimension: ${image.width} x ${image.height}px. <br> Please use image with at least ${imgDimensionLimit} x ${imgDimensionLimit}px.`;
-			togglePopUpAlert(errTitle, errMsg);
+			toggleAlert(errTitle, errMsg);
 			// Clear record of uploaded file
-			handleCancel();
+			handleRestart();
 			console.log(
 				'Low image resolution, please use image with at least 416 x 416px'
 			);
@@ -113,6 +106,13 @@ previewImg = (src, previewPicSize = 600) => {
 		}
 		//console.log(canvasResizeRatio)
 
+		$('#s-img-uploader').hide();
+		// Remove existing preview canvas
+		$('#uploadedImg, #uploadedImgBase').remove();
+		// Toggle cancel and function button
+		$('#btn-main-function, #btn-cancel, #inline-picture-uploader').show();
+		// Src is uploaded file src to create image element
+		// previewPicSize : Number, determine the size of displayed iamge
 		let canvas = canvasDrawImage(
 			src,
 			image.width,
@@ -174,7 +174,7 @@ checkImgFormat = (param) => {
 		} else {
 			let errTitle = 'Unsupported File Format';
 			let errMsg = `Uploader file foramt: ${inputFormat}. <br><br>Supported formats: bmp, dib, exr, hdr, jpeg, jpg, jpe, jp2, png, pic, pbm, pgm, ppm, pxm, pnm, ras, sr, tiff, tif, webp.`;
-			togglePopUpAlert(errTitle, errMsg);
+			toggleAlert(errTitle, errMsg);
 			// Clear record of uploaded file
 			$('#single-pic-input').val('');
 			reject('Error, unsupported file format.');
