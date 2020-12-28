@@ -48,6 +48,11 @@ a:hover {
 	background-color: #8eaf04;
 }
 
+.sentie-btn-beige {
+	border: 1px solid #bb9968;
+	background-color: #bb9968;
+}
+
 .sentie-btn-grey {
 	color: white !important;
 	border: 1px solid #424242;
@@ -116,6 +121,9 @@ a:hover {
 	color: #8eaf04;
 }
 
+.s-text-sentient-beige {
+	color: #bb9968;
+}
 /*-------------------*/
 /*    Scroll Bar     */
 /*-------------------*/
@@ -157,7 +165,7 @@ a:hover {
 }
 #single-pic-uploader i {
 	font-size: 100px;
-	color: #8eaf04;
+	color: #bb9968;
 	opacity: 30%;
 }
 #single-pic-uploader input {
@@ -165,8 +173,8 @@ a:hover {
 }
 /*.highlight will be added when user drag file above uploader area*/
 #single-pic-uploader.highlight {
-	border-color: #8eaf04;
-	background: rgba(142, 175, 4, 0.05);
+	border-color: #bb9968;
+	background: rgba(165, 115, 28, 0.05)
 }
 #single-pic-uploader.highlight i {
 	opacity: 100%;
@@ -205,7 +213,7 @@ a:hover {
 #s-img-uploader i,
 #s-video-uploader i {
 	font-size: 100px;
-	color: #8eaf04;
+	color: #bb9968;
 	opacity: 30%;
 }
 #s-img-uploader input,
@@ -215,8 +223,8 @@ a:hover {
 /*.highlight will be added when user drag file above uploader area*/
 #s-img-uploader.highlight,
 #s-video-uploader.highlight {
-	border-color: #8eaf04;
-	background: rgba(142, 175, 4, 0.05);
+	border-color: #bb9968;
+	background: rgba(175, 98, 4, 0.05);
 }
 #s-img-uploader.highlight i,
 #s-video-uploader.highlight i {
