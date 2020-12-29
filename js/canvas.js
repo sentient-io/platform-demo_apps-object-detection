@@ -62,7 +62,7 @@ canvasDrawBox = (e) => {
 
 		let canvas = document.getElementById(canvasID);
 
-		console.log('canvas height:', canvas.offsetHeight);
+		//console.log('canvas height:', canvas.offsetHeight);
 		height > canvas.offsetHeight - 80
 			? (height = canvas.offsetHeight - 80)
 			: height;

@@ -3,7 +3,7 @@
 /* +---------------------------+ */
 objectDetection = (base64) => {
 	return new Promise((resolve, reject) => {
-		console.log('Start Calling Object Detection API');
+		//console.log('Start Calling Object Detection API');
 
 		$.ajax({
 			method: 'POST',
@@ -12,11 +12,11 @@ objectDetection = (base64) => {
 			headers: { 'x-api-key': apikey, 'Content-Type': 'application/json' },
 			data: JSON.stringify({ image_base64: base64 }),
 			success: (result) => {
-				console.log('Object Detection Success');
+				//console.log('Object Detection Success');
 				resolve(result);
 			},
 			error: (err) => {
-				console.log('Object Detection Error');
+				//console.log('Object Detection Error');
 				reject(err);
 			},
 		});
@@ -28,7 +28,7 @@ objectDetection = (base64) => {
 /* +-----------------------+ */
 /* Convert returned value to organised group */
 groupDetectedObjects = (sParam) => {
-	console.log('Grouping Detected Objects');
+	//console.log('Grouping Detected Objects');
 	return new Promise((resolve, reject) => {
 		let param;
 		if (sParam.constructor == String) {
@@ -111,7 +111,7 @@ narrateDetectedObjects = (sParam) => {
 				'There' + ' ' + be + ' ' + objectCount + ' ' + categoryName + '.';
 		} else {
 			// Case : multiple types of object detected
-			console.log(categoryArry);
+			//console.log(categoryArry);
 			categoryArry.forEach((category) => {
 				let objectCount = Object.values(sParam[category]).length;
 				objectCount > 1 ? (be = 'are') : be;
@@ -146,7 +146,7 @@ singularToPlural = (word) => {
 
 	word = $.trim(word);
 
-	console.log(word);
+	//console.log(word);
 
 	if (word === 'person') {
 		return 'people';

@@ -32,7 +32,7 @@ handleImageProcessing = () => {
 				$('#detectObject, #btn-cancel').toggle();
 				$('#btn-restart').show();
 
-				console.log(Object.values(result));
+				//console.log(Object.values(result));
 
 				// Draw result to canvas
 				Object.values(result).forEach((e) => {
@@ -55,12 +55,12 @@ handleImageProcessing = () => {
 			})
 			.then((result) => {
 				$('#detectionDescription').html(result);
-				console.log(result);
+				//console.log(result);
 				$('#loader').hide();
 				$('#toggleBoxes').show();
 			})
 			.catch((err) => {
-				console.log(err);
+				//console.log(err);
 				// Toggle popup window
 				$('#alertTitle').html('Error ' + err.status);
 				let errMsg = JSON.parse(err.responseText);
@@ -131,7 +131,7 @@ randomColor = (hue, saturate, light, randH, randS, randL, randScale) => {
 };
 
 toggleCanvasBox = () => {
-	console.log('toggled once');
+	//console.log('toggled once');
 	$('#s-img-preview-container, #s-img-preview-base').toggle();
 };
 
