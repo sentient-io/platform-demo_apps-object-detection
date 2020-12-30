@@ -1,117 +1,144 @@
-objectDetection = (base64String) => {
-	console.log('Detecting objects');
-	const data = JSON.stringify({
-		image_base64: base64String,
+/* +---------------------------+ */
+/* | Call Object Detection API | */
+/* +---------------------------+ */
+objectDetection = (base64) => {
+	return new Promise((resolve, reject) => {
+		//console.log('Start Calling Object Detection API');
+
+		$.ajax({
+			method: 'POST',
+			url:
+				'https://apis.sentient.io/microservices/cv/objectdetection/v0.1/getpredictions',
+			headers: { 'x-api-key': apikey, 'Content-Type': 'application/json' },
+			data: JSON.stringify({ image_base64: base64 }),
+			success: (result) => {
+				//console.log('Object Detection Success');
+				resolve(result);
+			},
+			error: (err) => {
+				//console.log('Object Detection Error');
+				reject(err);
+			},
+		});
 	});
-
-	const xhr = new XMLHttpRequest();
-
-	// Disable line below because console error
-	//xhr.withCredentials = true;
-
-	xhr.addEventListener('readystatechange', function () {
-		if (this.readyState === this.DONE) {
-			loadingEnd();
-			$('#btn-restart, #toggleBoxes').toggle();
-			parseDetectedObjects(this.responseText);
-		}
-	});
-
-	xhr.open(
-		'POST',
-		'https://apis.sentient.io/microservices/cv/objectdetection/v0.1/getpredictions'
-	);
-	xhr.setRequestHeader('content-type', 'application/json');
-	xhr.setRequestHeader('x-api-key', apikey);
-
-	xhr.send(data);
 };
 
-parseDetectedObjects = (Objects) => {
-	let objects = JSON.parse(Objects);
-	let unsortedObjects = [];
-
-	for (item in objects) {
-		let objectName = objects[item][0].split(' : ')[0];
-		let location = objects[item][1]['Bounding Box'];
-		unsortedObjects.push([objectName, location]);
-	}
-
-	// Order items alphabetically
-	let sortedObjects = unsortedObjects.sort((a, b) => {
-		a[0].localeCompare(b[0], 'es', { sensitivity: 'base' });
-	});
-
-	// Group ordered items
-	let pharsedObjects = sortedObjects.reduce((r, e) => {
-		// get first letter of name of current element
-		let category = e[0];
-		// if there is no property in accumulator with this letter create it
-		if (!r[category]) {
-			r[category] = { category, objects: [e] };
+/* +-----------------------+ */
+/* | Group Detected Object | */
+/* +-----------------------+ */
+/* Convert returned value to organised group */
+groupDetectedObjects = (sParam) => {
+	//console.log('Grouping Detected Objects');
+	return new Promise((resolve, reject) => {
+		let param;
+		if (sParam.constructor == String) {
+			param = JSON.parse(sParam);
+		} else {
+			param = sParam;
 		}
-		// if there is push current element to children array for that letter
-		else {
-			// Push unique id to object
-			r[category].objects.push(e);
-		}
-		// return accumulator
-		return r;
-	}, {});
-	handelProcessedObjects(pharsedObjects);
-	$('#detectionDescription').html(describeProcessedObjects(pharsedObjects));
-};
-
-handelProcessedObjects = (objects) => {
-	for (category in objects) {
-		let objectsArr = objects[category].objects;
-		let color = randomColor(100, 50, 40, 26, 0, 0, 10);
-		for (objectIndex in objectsArr) {
-			canvasDrawBox(
-				objectsArr[objectIndex][1],
-				'uploadedPic',
-				objectsArr[objectIndex][0],
-				Number(objectIndex) + 1,
-				`hsl(${color})`
-			);
-		}
-	}
-};
-
-describeProcessedObjects = (objects) => {
-	console.log('Describing processed objects');
-	let sentence = 'Detected';
-	console.log(Object.keys(objects)[0]);
-	if (!Object.keys(objects)[0]) {
-		sentence = 'No object detected. Please try with another image.';
-		$('#toggleBoxes').hide()
-	} else {
-		for (item in objects) {
-			let amount = objects[item].objects.length;
-			let category;
-			if (amount === 1) {
-				category = objects[item].category;
+		let result = {};
+		for (key in param) {
+			let object = param[key][0].split(' : ')[0];
+			let confidence = param[key][0].split(' : ')[1];
+			let sBoundingBox = param[key][1]['Bounding Box'];
+			let location = {
+				left: sBoundingBox.Left,
+				top: sBoundingBox.Top,
+				right: sBoundingBox.Right,
+				bottom: sBoundingBox.Bot,
+			};
+			let size = {
+				width: sBoundingBox.Right - sBoundingBox.Left,
+				height: sBoundingBox.Bot - sBoundingBox.Top,
+			};
+			let detail = {
+				object: object,
+				confidence: confidence,
+				location: location,
+				size: size,
+			};
+			if (!result[`${object}`]) {
+				detail.id = 1;
+				result[`${object}`] = {};
+				result[`${object}`][`${object}-1`] = detail;
 			} else {
-				category = singularToPlural(objects[item].category);
+				let id = Object.keys(result[`${object}`]).length + 1;
+				detail.id = id;
+				result[`${object}`][`${object}-${id}`] = detail;
 			}
-			sentence += ` ${amount} ${category},`;
 		}
-	}
-
-	// Replace last comma with full stop
-	sentence = sentence.slice(0, -1) + '.';
-	// Get the index of last comma and replace with "and"
-	let lastCommaIndex = sentence.lastIndexOf(',');
-	if (lastCommaIndex > 1) {
-		sentence =
-			sentence.slice(0, lastCommaIndex) +
-			' and' +
-			sentence.slice(lastCommaIndex + 1, sentence.length);
-	}
-
-	return sentence;
+		data.detectedObjects = result;
+		resolve(result);
+	});
 };
 
+/* +--------------------+ */
+/* | Filter By Category | */
+/* +--------------------+ */
+/* Filter all detectd object by category */
+filterByCategory = (category, source) => {
+	let result = {};
+
+	category.forEach((index) => {
+		if (source[index]) {
+			result[`${index}`] = source[index];
+		}
+	});
+
+	return result;
+};
+
+/* +-------------------------+ */
+/* | Narrate Detected Object | */
+/* +-------------------------+ */
+narrateDetectedObjects = (sParam) => {
+	return new Promise((resolve, reject) => {
+		let sentence = '';
+		let be = Object.keys(sParam).length == 1 ? 'is' : 'are';
+		let categoryArry = Object.keys(sParam).sort();
+
+		if (categoryArry[0] === undefined) {
+			// Case : no detected object
+			sentence = 'Sorry, no object detected, please try another picture.';
+			state.noDetection = true;
+		} else if (categoryArry.length === 1) {
+			// Case : 1 type of object detected
+			let objectCount = Object.values(sParam[categoryArry[0]]).length;
+			objectCount > 1 ? (be = 'are') : be;
+			let categoryName =
+				objectCount > 1 ? singularToPlural(categoryArry[0]) : categoryArry[0];
+			sentence =
+				'There' + ' ' + be + ' ' + objectCount + ' ' + categoryName + '.';
+		} else {
+			// Case : multiple types of object detected
+			//console.log(categoryArry);
+			categoryArry.forEach((category) => {
+				let objectCount = Object.values(sParam[category]).length;
+				objectCount > 1 ? (be = 'are') : be;
+				let categoryName =
+					objectCount > 1 ? singularToPlural(category) : category;
+				let comma = ', ';
+				let and = '';
+				// For second last item, remove comma
+				category == categoryArry[categoryArry.length - 2]
+					? (comma = ' ')
+					: comma;
+				// For last item, chagne comma to fullstop, add "and"
+				category == categoryArry[categoryArry.length - 1]
+					? ((comma = '.'), (and = 'and '))
+					: comma;
+				sentence += and + objectCount + ' ' + categoryName + comma;
+			});
+			sentence = 'There' + ' ' + be + ' ' + sentence;
+		}
+		data.description = sentence;
+		resolve(sentence);
+	});
+};
+
+/* +-------------------------------+ */
+/* | Convert object name to plural | */
+/* +-------------------------------+ */
 singularToPlural = (word) => {
 	let esPlural = ['bus', 'bench', 'wine glass', 'sandwich'];
 	let noPlural = ['scissors', 'sheep'];
@@ -119,7 +146,7 @@ singularToPlural = (word) => {
 
 	word = $.trim(word);
 
-	console.log(word);
+	//console.log(word);
 
 	if (word === 'person') {
 		return 'people';
@@ -134,4 +161,18 @@ singularToPlural = (word) => {
 	} else {
 		return word + 's';
 	}
+};
+
+/* +-------------------------------------+ */
+/* | Render description sentence to HTML | */
+/* +-------------------------------------+ */
+displayDescription = (sParam) => {
+	let description = document.createElement('div');
+	$(description).html(`<p>${sParam}</p>`);
+	$(description).addClass('s-img-narration-description');
+	$(description).attr(
+		'style',
+		`max-width:${data.file.sWidth * data.file.resizeRatio + 20}px`
+	);
+	$('#s-img-preview').append(description);
 };

@@ -54,20 +54,24 @@
                         <h4>Detect Objects in Image</h4><span class="ml-2 p-2 badge badge-pill"
                             style="background-color:#B71C1C; color:white; height: 28px;"><i>DEMO</i></span>
                     </div>
-                    <div>
+                    <div class="mt-3">
                         <p>
-                            This demo app takes in an image and detects up to 80 categories of identifiable objects (see documentation of the Object Detection microservice for the full list). Detected objects will have a bounding box around it, which can be turned off by the user.<br>Do note the 5MB image file size limit.
+                            This demo app takes in an image and detects up to 80 categories of identifiable objects (see
+                            documentation of the Object Detection microservice for the full list). Detected objects will
+                            have a bounding box around it, which can be turned off by the user.<br>Do note the 5MB image
+                            file size limit.
                         </p>
                     </div>
                 </div>
                 <div id="header-container-r"
                     class="d-flex flex-row flex-md-column col-md-3 justify-content-center demo-app-btn-container">
-                    <a href="https://platform.sentient.io/demoapps_detail#detect_objects" target="_blank" class="mb-3 mx-auto d-block text-center sentie-btn-secondary"
+                    <a href="https://platform.sentient.io/demoapps_detail#detect_objects" target="_blank"
+                        class="mb-3 mx-auto d-block text-center sentie-btn-secondary"
                         style="width: 200px;background: #f5f5f5;">
                         More Info
                     </a>
-                    <a href="https://github.com/sentient-io/platform-demo_apps-object-detection" target="_blank" class="mb-3 mx-auto text-center sentie-btn-primary sentie-btn-grey"
-                        style="width: 200px;">
+                    <a href="https://github.com/sentient-io/platform-demo_apps-object-detection" target="_blank"
+                        class="mb-3 mx-auto text-center sentie-btn-primary sentie-btn-grey" style="width: 200px;">
                         Demo App Code
                     </a>
                 </div>
@@ -77,26 +81,47 @@
             <!-- Demp App Functions-->
             <div class="p-3 mt-5 d-flex flex-column" style="min-height: 30vh;">
 
+                <!-- Sample images container  -->
+                <div id="sample-images-container">
+                    <p class="text-center">To start test, please use <b class="s-text-sentient-green">provided images
+                            below</b>, or upload a picture
+                        <b class="s-text-sentient-beige">with the uploader</b>.
+                    </p>
+                    <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+                        <div id="sample-images" class="d-flex flex-wrap  justify-content-center ">
+                            <!-- Sample images will be rendered by renderSampleImages() function inside sampleImages.js -->
+                        </div>
+                    </div>
+                </div>
+
 
                 <div id="functionsContianer" class="col-12">
 
-                    <!-- +------------------------------+ -->
-                    <!-- Single Pic Uploader -->
+                    <!-- +----------------+ -->
+                    <!-- | Image Uploader | -->
+                    <!-- +----------------+ -->
                     <!-- Pic Preview -->
-                    <div id="single-pic-preview" class="d-flex justify-content-center">
+                    <div id="s-img-preview-container">
+                        <div id="s-img-preview" class="d-flex justify-content-center">
 
+                        </div>
                     </div>
+                    <div id="s-img-preview-base" style="display: none;">
+                        <div id="s-img-preview-base" class="d-flex justify-content-center">
+
+                        </div>
+                    </div>
+
                     <!-- -END- Pic Preview -->
                     <!-- Uploader drag drop box -->
-                    <div class="mx-auto mt-4 p-3" id="single-pic-uploader">
+                    <div class="mx-auto mt-4 p-3" id="s-img-uploader">
                         <form class="text-center">
                             <i class="mb-3 material-icons">cloud_upload</i>
                             <h5>Drag and drop single image here</h5>
                             <p>(Max file size : 5mb)</p>
                             <p>or</p>
-                            <input type="file" accept="image/*" id="single-pic-input"
-                                onchange="uploadSinglePic(this.files)">
-                            <label class="px-3 sentie-btn-primary sentie-btn-green" for="single-pic-input">Upload a
+                            <input type="file" accept="image/*" id="single-pic-input" onchange="uploadImg(this.files)">
+                            <label class="px-3 sentie-btn-primary sentie-btn-beige" for="single-pic-input">Upload a
                                 Picture</label>
                         </form>
                     </div>
@@ -119,7 +144,7 @@
                     <div class="custom-control custom-switch">
                         <input type="checkbox" checked=true class="custom-control-input" id="toggleSwitch"
                             onclick="toggleCanvasBox()">
-                        <label class="custom-control-label" for="toggleSwitch">Object Highlight Box</label>
+                        <label class="custom-control-label" for="toggleSwitch">Display bounding boxes</label>
                     </div>
                 </div>
             </div>
@@ -132,24 +157,22 @@
             <!-- -END- Lodaer with changing text -->
 
             <!-- Demo App Controls -->
-            <div class="m-auto pt-2 d-flex flex-column-reverse flex-sm-row justify-content-center align-items-center"
-                style="max-width: 600px;">
-
-                <div class="col-3 text-center">
-                    <button id="btn-cancel" class="mb-4 sentie-btn-cancel" style="display: none"
-                        onclick="handleCancel()"> Cancel </button>
+            <div class="m-auto pt-2 d-flex flex-column-reverse flex-sm-row justify-content-center align-items-center">
+                <div class="mt-4 mt-sm-0 col-12 col-sm-4 text-center">
+                    <label class="px-3 s-text-sentient-green s-link-text" style="display: none;"
+                        id="inline-picture-uploader" for="single-pic-input">Upload another
+                        Picture</label>
                 </div>
-                <div class="col-6 text-center">
+                <div class="col-12 col-sm-4 text-center">
 
-                    <button id="detectObject" onclick="handleImageProcessing()"
-                        class="mb-4 mx-auto text-center sentie-btn-primary sentie-btn-grey"
-                        style="display: none;">Detect
+                    <button id="btn-main-function" onclick="handleImageProcessing()"
+                        class="mx-auto text-center sentie-btn-primary sentie-btn-green" style="display: none;">Detect
                         Objects</button>
                     <button id="btn-restart" onclick="handleRestart()"
-                        class="mb-4  mx-auto text-center sentie-btn-primary sentie-btn-green"
+                        class="mx-auto text-center sentie-btn-primary sentie-btn-grey"
                         style="display: none !important;"> Restart </button>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
 
                 </div>
             </div>
@@ -159,7 +182,7 @@
         </div>
         <!-- Back button to all demo app -->
         <div class="mt-3 d-flex justify-content-center">
-            <a href="https://platform.sentient.io/demoapps">
+            <a href="https://platform.sentient.io/demoapps" target="_top">
                 <button class="d-flex row align-items-center sentie-btn-cancel">
                     <span class="material-icons mr-2 ">arrow_back</span>
                     All Demo Apps
@@ -179,7 +202,7 @@
                             style="color:#bb9968">Sentient.io</a> with the help of our contributors.
                     </p>
                     <p>
-                        App version: 1.0.0 | Source code for app available
+                        App version: 1.1.0 | Source code for app available
                         <a href="https://github.com/sentient-io/platform-demo_apps-object-detection" target="_blank"
                             style="color:#bb9968">here</a>.
                     </p>
@@ -207,11 +230,14 @@
 
     <!-- Stores API Key -->
     <script src="app.js"></script>
-    <script src="js/singleImgUploader.js"></script>
+    <script src="js/imageUploader.js"></script>
     <script src="js/ObjectDetection.js"></script>
 
     <script src="js/loader.js"></script>
     <script src="js/main.js"></script>
+
+    <script src="js/sampleImages.js"></script>
+    <script src="js/canvas.js"></script>
 
 
 
