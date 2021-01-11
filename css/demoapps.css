@@ -247,3 +247,14 @@ a:hover {
 	max-width: 100%;
 	height: auto;
 }
+.content{	
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+footer p{
+margin-bottom: 10px!important;
+}
+.pt-30{
+	padding-top:30px;
+}
