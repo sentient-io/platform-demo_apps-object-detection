@@ -142,7 +142,7 @@ narrateDetectedObjects = (sParam) => {
 singularToPlural = (word) => {
 	let esPlural = ['bus', 'bench', 'wine glass', 'sandwich'];
 	let noPlural = ['scissors', 'sheep'];
-	let vesPlural = ['giraffe', 'knife'];
+	let vesPlural = ['knife'];
 
 	word = $.trim(word);
 
